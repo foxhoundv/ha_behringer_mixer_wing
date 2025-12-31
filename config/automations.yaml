@@ -1,0 +1,55 @@
+# Arm channels for automation recording
+- alias: "Arm Channels for Recording"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.record_mode
+      to: "on"
+  action:
+    - service: ha_behringer_mixer.automation_arm_channels
+      data:
+        channels: "1-8,12"
+        buses: "1-4"
+        enable: true
+
+# Start recording automation
+- alias: "Start Mix Recording"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.recording
+      to: "on"
+  action:
+    - service: ha_behringer_mixer.record_automation_start
+      data:
+        project_name: "{{ states('input_text.project_name') }}"
+
+# Stop recording
+- alias: "Stop Mix Recording"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.recording
+      to: "off"
+  action:
+    - service: ha_behringer_mixer.record_automation_stop
+      data:
+        save_path: "/config/wing_automation/{{ states('input_text.project_name') }}.json"
+
+# Play automation with audio
+- alias: "Playback Mix with Automation"
+  trigger:
+    - platform: state
+      entity_id: media_player.studio_audio
+      to: "playing"
+  action:
+    - service: ha_behringer_mixer.play_automation
+      data:
+        automation_file: "/config/wing_automation/{{ states('input_text.project_name') }}.json"
+        from_position: 0.0
+
+# Stop automation on pause
+- alias: "Pause Automation"
+  trigger:
+    - platform: state
+      entity_id: media_player.studio_audio
+      to: "paused"
+  action:
+    - service: ha_behringer_mixer.stop_automation
