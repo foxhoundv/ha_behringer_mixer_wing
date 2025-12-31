@@ -1,16 +1,16 @@
 {
-  "domain": "ha_behringer_mixer",
-  "name": "Behringer Mixer",
+  "domain": "ha_behringer_mixer_wing",
+  "name": "Behringer Wing Mixer",
   "codeowners": [
     "@wrodie"
   ],
   "config_flow": true,
-  "documentation": "https://github.com/wrodie/ha_behringer_mixer",
+  "documentation": "https://github.com/foxhoundv/ha_behringer_mixer_wing",
   "integration_type": "device",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/wrodie/ha_behringer_mixer/issues",
+  "issue_tracker": "https://github.com/foxhoundv/ha_behringer_mixer_wing/issues",
   "loggers": [
-    "custom_components.ha_behringer_mixer"
+    "custom_components.ha_behringer_mixer_wing"
   ],
   "requirements": [
     "behringer-mixer==0.4.11"
