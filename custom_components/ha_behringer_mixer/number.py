@@ -16,6 +16,18 @@ async def async_setup_entry(hass, entry, async_add_devices):
     devices_list = build_entities(coordinator)
     async_add_devices(devices_list)
 
+async def async_set_native_value(self, value: float) -> None:
+    """Update fader position"""
+    await super().async_set_native_value(value)
+    
+    # Record automation if armed and recording
+    if self._is_armed_for_automation():
+        self.coordinator.automation_recorder.record_event(
+            channel_type="ch",
+            channel_num=self._channel_num,
+            param_type="fader",
+            value=value
+        )
 
 def build_entities(coordinator):
     """Build up the entities."""
