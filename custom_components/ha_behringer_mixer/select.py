@@ -14,6 +14,17 @@ async def async_setup_entry(hass, entry, async_add_devices):
     devices_list = build_entities(coordinator)
     async_add_devices(devices_list)
 
+async def async_turn_on(self) -> None:
+    """Mute channel"""
+    await super().async_turn_on()
+    
+    if self._is_armed_for_automation():
+        self.coordinator.automation_recorder.record_event(
+            channel_type="ch",
+            channel_num=self._channel_num,
+            param_type="mute",
+            value=1.0
+        )
 
 def build_entities(coordinator):
     """Build up the entities."""
